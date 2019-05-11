@@ -10,7 +10,7 @@
 Execute the following command:
 
 ```shell
-$ python3 MainAPI.py runserver --host 0.0.0.0 --port 8000
+$ python3 Main\startapp.py runserver --host 0.0.0.0 --port 8000
 ```
 
 Go to url [http://localhost:8000](http://localhost:8000).
@@ -43,6 +43,20 @@ $ curl -O http://localhost:8000/update
 ## Deployment
 
 The project will be in Continuous Delivery by `Microsoft VSTS` or other CICD service. So the changes in the branch `master` automatically deploy in the production.
+
+
+## Testing Locally
+
+To test in local enviroment use Configurations Script (made for windows users).
+
+In first teste run file:
+
+- RestAPI\installenvs.bat
+
+
+And then after first install run file:
+
+- startlocal.bat
 
 >
 > 
