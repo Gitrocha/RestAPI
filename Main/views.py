@@ -10,70 +10,73 @@ class EmployeesResource(Resource):
     """
 
     def get(self):
-        print('Getting')
-        log.start()
+
+        employee_id = request.args.get('id', default=0, type=int)
 
         try:
-            log.info('Get Resource')
+            string = f'User query for employee id {employee_id}'
+            log.info(string)
 
         except OSError:
-            log.info("Could not get information")
+            log.info(f'Failed to fetch employee id {employee_id}')
 
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
 
-        return True
+        return {'Status': 'Got me'}
+
+    def delete(self):
+
+        try:
+            log.info('Delete Resource')
+
+        except OSError:
+            log.info("Could not delete employee information")
+
+            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
+                       str(sys.exc_info()[2])
+            log.info(errormsg)
+
+        return {'Status': 'Deleted Me'}
+
+    def put(self):
+
+        try:
+            log.info('Put Resource')
+
+        except OSError:
+            log.info("Could not update information")
+
+            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
+                       str(sys.exc_info()[2])
+            log.info(errormsg)
+
+        return {'Status': 'Updated Me'}
+
+
+class NewEmployeesResource(Resource):
+    """
+    Create class methods of API - Post
+    """
 
     def post(self):
-        log.start()
 
         try:
             log.info('Post Resource')
 
         except OSError:
-            log.info("Could not get information")
+            log.info("Could not post information")
 
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
 
-        return True
-
-    def delete(self):
-        log.start()
-
-        try:
-            log.info('Get Resource')
-
-        except OSError:
-            log.info("Could not get information")
-
-            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
-                       str(sys.exc_info()[2])
-            log.info(errormsg)
-
-        return True
-
-    def update(self):
-        log.start()
-
-        try:
-            log.info('Get Resource')
-
-        except OSError:
-            log.info("Could not get information")
-
-            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
-                       str(sys.exc_info()[2])
-            log.info(errormsg)
-
-        return True
+        return {'Status': 'Created Me'}
 
 
 class LogResource(Resource):
     def get(self):
-        log.start()
 
         try:
             syslog = open('log/syslog.log', 'r')

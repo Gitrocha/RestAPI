@@ -17,18 +17,20 @@ def create_app():
     import views
     api = Api(app)
 
-    # Endpoints - Get, Post, Delete and Update API Resources
+    # Endpoints - Get, Post, Delete and Put API Resources
 
     # Employees resources
     api.add_resource(
-        views.EmployeesResource,
-        '/employees'
+        views.EmployeesResource, '/employees'
+    )
+
+    api.add_resource(
+        views.NewEmployeesResource, '/new-employees'
     )
 
     # Logs visualization
     api.add_resource(
-        views.LogResource,
-        '/log'
+        views.LogResource, '/log'
     )
 
     return app

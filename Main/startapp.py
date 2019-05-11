@@ -12,7 +12,5 @@ if __name__ == '__main__':
     python Main/startapp.py runserver --host X.Y.Z.W --port N
     """
 
-    log.start()
-    # log.info(f'Application has started')
     log.info('Application has started')
     manager.run()
