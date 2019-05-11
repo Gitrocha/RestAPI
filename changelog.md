@@ -33,3 +33,12 @@ using Python Flask and Windows Config Automations Scripts for local tests.
 <sup>*Author - Lucas Rocha*</sup>
 
 ----
+
+## 11/05/2019
+
+* Branch commit - Creation of STG Branch
+
+
+<sup>*Author - Lucas Rocha*</sup>
+
+----
