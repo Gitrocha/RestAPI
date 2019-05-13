@@ -64,6 +64,8 @@ class NewEmployeesResource(Resource):
 
         try:
             log.info('Post Resource')
+            straight = request.get_json()
+            print('Straight', straight)
 
         except OSError:
             log.info("Could not post information")
@@ -71,11 +73,14 @@ class NewEmployeesResource(Resource):
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
+            postdict = {'Status': 'Error'}
 
-        return {'Status': 'Created Me'}
+        result = 'Teste'
+        return {'Status': result}
 
 
 class LogResource(Resource):
+
     def get(self):
 
         try:
@@ -90,3 +95,14 @@ class LogResource(Resource):
         response.headers['Content-type'] = 'text/plain'
 
         return response
+
+
+class FrontMock(Resource):
+
+    def get(self):
+
+        from database import clientoperations
+
+        print(clientoperations.client_test())
+
+        return {'Status': 'Ok'}

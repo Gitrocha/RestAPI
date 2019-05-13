@@ -1,9 +1,10 @@
 from flask_script import Server, Manager
-from app import create_app
+from application import base_app
 import log
+from database import clientoperations
 
 
-manager = Manager(create_app())
+manager = Manager(base_app())
 manager.add_command('runserver', Server(use_debugger=True, use_reloader=False, threaded=True))
 
 if __name__ == '__main__':
@@ -12,5 +13,5 @@ if __name__ == '__main__':
     python Main/startapp.py runserver --host X.Y.Z.W --port N
     """
 
-    log.info('Application has started')
+    log.info('Application has started.')
     manager.run()
