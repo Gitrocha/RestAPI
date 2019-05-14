@@ -10,10 +10,10 @@
 Execute the following command:
 
 ```shell
-$ python3 Main\startapp.py runserver --host 0.0.0.0 --port 8000
+$ python Main/startapp.py runserver --host 0.0.0.0 --port 50000
 ```
 
-Go to url [http://localhost:8000](http://localhost:8000).
+Go to url [http://localhost:5000](http://localhost:5000).
 
 ## Endpoints
 
