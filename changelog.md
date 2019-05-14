@@ -42,3 +42,11 @@ using Python Flask and Windows Config Automations Scripts for local tests.
 <sup>*Author - Lucas Rocha*</sup>
 
 ----
+
+## 13/05/2019
+
+* New Version commit - Creation of Beta Version 0.1
+
+<sup>*Author - Lucas Rocha*</sup>
+
+----
