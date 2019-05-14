@@ -7,6 +7,7 @@ import sqlite3
 from database import entities
 
 
+# Main methods for interact with db
 class EmployeesResource1(Resource):
     """
     Create class methods of API - Get, Post, Delete and Update
@@ -23,10 +24,6 @@ class EmployeesResource1(Resource):
             string = f'User queried for employee {employee_name}'
 
             log.info(string)
-
-            if result == []:
-                message = f'Employee {employee_name} not found'
-                result = {'Status': 'ok', 'Message': message}
 
         except:
             log.info(f'Failed to find employee')
@@ -84,6 +81,7 @@ class EmployeesResource1(Resource):
         return result
 
 
+# Find employees by exact ID
 class EmployeesResource2(Resource):
     """
     Create class methods of API - Get by ID
@@ -112,6 +110,36 @@ class EmployeesResource2(Resource):
         return result
 
 
+# Find all employees named like inputs
+class EmployeesResource3(Resource):
+    """
+    Create class methods of API - Get by ID
+    """
+
+    def get(self):
+
+        try:
+            employee_name = request.args.get('name', default='', type=str)
+
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.find_employee_close(namelike=employee_name, connection=conn)
+            conn.close()
+            string = f'User queried for employee name like {employee_name}'
+
+            log.info(string)
+
+        except:
+            log.info(f'Failed to find employee')
+            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
+                       str(sys.exc_info()[2])
+            log.info(errormsg)
+
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
+
+
+# Methods for new employee register
 class NewEmployeesResource(Resource):
     """
     Create class methods of API - Post new employee to database
@@ -142,6 +170,7 @@ class NewEmployeesResource(Resource):
         return result
 
 
+#Query log by get
 class LogResource(Resource):
 
     def get(self):
@@ -158,6 +187,7 @@ class LogResource(Resource):
         return response
 
 
+# Class for mass DB data insert
 class FrontMock(Resource):
 
     def get(self):

@@ -21,44 +21,88 @@ def find_employee_exact(empname, connection):
 
     c = connection.cursor()
     c.execute("SELECT * FROM employees_list WHERE name=:name", {'name': empname})
-    return {'Status': 'ok', 'Message': c.fetchall()}
+
+    result = c.fetchall()
+
+    if len(result) == 0:
+        message = f'Employee {empname} not found'
+        result = {'Status': 'ok', 'Message': message}
+        return result
+
+    return {'Status': 'ok', 'Message': result}
 
 
-def find_employee_close(empname, connection):
+def find_employee_close(namelike, connection):
 
     c = connection.cursor()
-    likename = f'%{empname}%'
+    likename = f'%{namelike}%'
     c.execute("SELECT * FROM employees_list WHERE name LIKE :name", {'name': likename})
-    return c.fetchall()
+
+    result = c.fetchall()
+
+    if len(result) == 0:
+        message = f'Employee name similar to {namelike} not found.'
+        result = {'Status': 'ok', 'Message': message}
+        return result
+
+    return {'Status': 'ok', 'Message': result}
 
 
 def find_employee_exactid(empid, connection):
 
     c = connection.cursor()
     c.execute("SELECT * FROM employees_list WHERE id=:id", {'id': empid})
-    return c.fetchall()[0]
+
+    result = c.fetchall()
+
+    if len(result) == 0:
+        message = f'Employee {empid} not found'
+        result = {'Status': 'ok', 'Message': message}
+        return result
+
+    return {'Status': 'ok', 'Message': result}
 
 
 def update_role(employeeid, newrole, connection):
 
     with connection:
         c = connection.cursor()
-        c.execute("""UPDATE employees_list SET role = :role
-                    WHERE id = :id""",
-                  {'id': employeeid, 'role': newrole})
 
-    message = f'Employee {employeeid}, changed role to {newrole}.'
+        c.execute("SELECT * FROM employees_list WHERE id=:id", {'id': employeeid})
 
-    return {'Status': 'ok', 'Message': message}
+        result = c.fetchall()
+
+        if len(result) > 0:
+
+            c.execute("""UPDATE employees_list SET role = :role
+                        WHERE id = :id""",
+                      {'id': employeeid, 'role': newrole})
+
+            message = f'Employee {employeeid}, changed role to {newrole}.'
+
+            return {'Status': 'ok', 'Message': message}
+
+        message = f'There is no occurrence of id {employeeid}'
+
+        return {'Status': 'error', 'Message': message}
 
 
 def remove_employee(employeeid, connection):
 
     with connection:
         c = connection.cursor()
-        c.execute("DELETE from employees_list WHERE id = :id",
-                  {'id': employeeid})
+        c.execute("SELECT * FROM employees_list WHERE id=:id", {'id': employeeid})
 
-    message = f'Removed employee ID: {employeeid} from database.'
+        result = c.fetchall()
 
-    return {'Status': 'ok', 'Message': message}
+        if len(result) > 0:
+
+            c.execute("DELETE from employees_list WHERE id = :id", {'id': employeeid})
+
+            message = f'Removed employee ID: {employeeid} from database.'
+
+            return {'Status': 'ok', 'Message': message}
+
+        message = f'There is no occurrence of id {employeeid}'
+
+        return {'Status': 'error', 'Message': message}
