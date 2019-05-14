@@ -30,13 +30,11 @@ $ env\Scripts\activate && python Main/startapp.py runserver --host 127.0.0.1 --p
 
 To read application logs go to:
 
-```
-$ curl -O http://localhost:5000/log
-```
+* http://127.0.0.1:5000/new-employees
 
 To post new employee information to database, send a json in the format of {"name": "Rachel Higgs", "age": 18, "role": "Trainee"} to the folowing endpoint:
 
-* http://localhost:5000/new-employees
+* http://127.0.0.1:5000/new-employees
 ---
 To delete employee information from database, send a json in the format of {"id":9} to the folowing endpoint:
 
@@ -55,6 +53,9 @@ Or, to get employee information by id, use the given format using url parameter:
 *http://127.0.0.1:5000/employees-by-id?id=1
 
 
+>
+>
+>
 >
 > 
 > WARNING  
