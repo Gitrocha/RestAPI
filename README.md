@@ -30,7 +30,7 @@ $ env\Scripts\activate && python Main/startapp.py runserver --host 127.0.0.1 --p
 
 To read application logs go to:
 
-* http://127.0.0.1:5000/new-employees
+* http://127.0.0.1:5000/log
 
 To post new employee information to database, send a json in the format of {"name": "Rachel Higgs", "age": 18, "role": "Trainee"} to the folowing endpoint:
 
