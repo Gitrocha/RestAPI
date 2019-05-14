@@ -14,7 +14,8 @@ def base_app():
     log.start()
     api = Api(restapi)
     # Employees resources
-    api.add_resource(features.EmployeesResource, '/employees')
+    api.add_resource(features.EmployeesResource1, '/employees')
+    api.add_resource(features.EmployeesResource2, '/employees-by-id')
     api.add_resource(features.NewEmployeesResource, '/new-employees')
     # Logs visualization
     api.add_resource(features.LogResource, '/log')

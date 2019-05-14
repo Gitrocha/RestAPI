@@ -1,7 +1,6 @@
 from flask_script import Server, Manager
 from application import base_app
 import log
-from database import clientoperations
 
 
 manager = Manager(base_app())

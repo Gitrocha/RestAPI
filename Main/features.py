@@ -1,82 +1,145 @@
-from flask import Response, stream_with_context, current_app, make_response, render_template, Flask, request, jsonify
+from flask import Response, stream_with_context, current_app, make_response, render_template, Flask, request
 from flask_restful import Resource, Api
 import log
 import sys
+from database import connectors
+import sqlite3
+from database import entities
 
 
-class EmployeesResource(Resource):
+class EmployeesResource1(Resource):
     """
     Create class methods of API - Get, Post, Delete and Update
     """
 
     def get(self):
 
-        employee_id = request.args.get('id', default=0, type=int)
-
         try:
-            string = f'User query for employee id {employee_id}'
+            employee_name = request.args.get('name', default=0, type=str)
+
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.find_employee_exact(empname=employee_name, connection=conn)
+            conn.close()
+            string = f'User queried for employee {employee_name}'
+
             log.info(string)
 
-        except OSError:
-            log.info(f'Failed to fetch employee id {employee_id}')
+            if result == []:
+                message = f'Employee {employee_name} not found'
+                result = {'Status': 'ok', 'Message': message}
 
+        except:
+            log.info(f'Failed to find employee')
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
 
-        return {'Status': 'Got me'}
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
 
     def delete(self):
 
         try:
-            log.info('Delete Resource')
+            employee_id = request.get_json()['id']
 
-        except OSError:
-            log.info("Could not delete employee information")
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.remove_employee(employeeid=employee_id, connection=conn)
+            conn.close()
+            string = f'User deleted employee {employee_id} info from database.'
 
+            log.info(string)
+
+        except:
+            log.info("Could not delete employee info from database.")
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
 
-        return {'Status': 'Deleted Me'}
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
 
     def put(self):
 
         try:
-            log.info('Put Resource')
+            employee = request.get_json()
+            employee_id = employee['id']
+            employee_role = employee['role']
 
-        except OSError:
-            log.info("Could not update information")
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.update_role(employeeid=employee_id, newrole=employee_role, connection=conn)
+            conn.close()
 
+            string = f'User updated employee {employee_id} role in database.'
+            log.info(string)
+
+        except:
+            log.info("Could not update employee role in database.")
+            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
+                       str(sys.exc_info()[2])
+            log.info(errormsg)
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
+
+
+class EmployeesResource2(Resource):
+    """
+    Create class methods of API - Get by ID
+    """
+
+    def get(self):
+
+        try:
+            employee_id = request.args.get('id', default=0, type=int)
+
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.find_employee_exactid(empid=employee_id, connection=conn)
+            conn.close()
+            string = f'User queried for employee id {employee_id}'
+
+            log.info(string)
+
+        except:
+            log.info(f'Failed to find employee')
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
 
-        return {'Status': 'Updated Me'}
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
 
 
 class NewEmployeesResource(Resource):
     """
-    Create class methods of API - Post
+    Create class methods of API - Post new employee to database
     """
 
     def post(self):
 
         try:
-            log.info('Post Resource')
-            straight = request.get_json()
-            print('Straight', straight)
+            employee = request.get_json()
+            #print(employee)
+            #print(employee['name'])
+            new_emp = entities.Employee(employee['name'], employee['age'], employee['role'])
 
-        except OSError:
-            log.info("Could not post information")
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.add_employee(employee=new_emp, connection=conn)
+            conn.close()
 
+            string = f'User added new employee in database. - Name: {new_emp.name}, position: {new_emp.role}'
+            log.info(string)
+
+        except:
+            log.info("Could not post information.")
             errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
                        str(sys.exc_info()[2])
             log.info(errormsg)
-            postdict = {'Status': 'Error'}
+            result = {'Status': 'error', 'Message': errormsg}
 
-        result = 'Teste'
-        return {'Status': result}
+        return result
 
 
 class LogResource(Resource):
@@ -85,11 +148,9 @@ class LogResource(Resource):
 
         try:
             syslog = open('log/syslog.log', 'r')
-
-        except OSError:
+        except:
             log.info("Faile to open log file")
             return 'no log file found'
-
         content = stream_with_context(syslog)
         response = Response(content)
         response.headers['Content-type'] = 'text/plain'
@@ -101,8 +162,16 @@ class FrontMock(Resource):
 
     def get(self):
 
-        from database import clientoperations
+        try:
+            from database import clientoperations
+            result = clientoperations.client_test()
 
-        print(clientoperations.client_test())
+        except:
+            log.info("Could not post information")
+            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
+                       str(sys.exc_info()[2])
 
-        return {'Status': 'Ok'}
+            log.info(errormsg)
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
