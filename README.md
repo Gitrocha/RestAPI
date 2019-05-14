@@ -2,8 +2,6 @@
 
 ## Requirements
 
-* Docker
-* Docker Compose
 * Python 3
 * Windows* (only if want to use configuration script automation)
 
