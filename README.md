@@ -10,7 +10,7 @@
 Execute the following command:
 
 ```shell
-$ python Main/startapp.py runserver --host 0.0.0.0 --port 50000
+$ python Main/startapp.py runserver --host 0.0.0.0 --port 5000
 ```
 
 Go to url [http://localhost:5000](http://localhost:5000).
