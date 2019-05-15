@@ -41,7 +41,7 @@ class EmployeesResource1(Resource):
             employee_id = request.get_json()['id']
 
             conn = sqlite3.connect('./Main/database/data/Employees.db')
-            result = connectors.remove_employee(employeeid=employee_id, connection=conn)
+            result = connectors.remove_employee(employeeid=int(employee_id), connection=conn)
             conn.close()
             string = f'User deleted employee {employee_id} info from database.'
 
@@ -139,6 +139,35 @@ class EmployeesResource3(Resource):
         return result
 
 
+# Find all employees named like inputs
+class EmployeesResource4(Resource):
+    """
+    Create class methods of API - Get by ID
+    """
+
+    def get(self):
+
+        try:
+            employee_role = request.args.get('role', default='', type=str)
+
+            conn = sqlite3.connect('./Main/database/data/Employees.db')
+            result = connectors.find_employee_roles(rolelike=employee_role, connection=conn)
+            conn.close()
+            string = f'User queried for employee name like {employee_role}'
+
+            log.info(string)
+
+        except:
+            log.info(f'Failed to find employee')
+            errormsg = "Unexpected error:" + str(sys.exc_info()[0]) + ' / ' + str(sys.exc_info()[1]) + ' / ' + \
+                       str(sys.exc_info()[2])
+            log.info(errormsg)
+
+            result = {'Status': 'error', 'Message': errormsg}
+
+        return result
+
+
 # Methods for new employee register
 class NewEmployeesResource(Resource):
     """
@@ -151,7 +180,7 @@ class NewEmployeesResource(Resource):
             employee = request.get_json()
             #print(employee)
             #print(employee['name'])
-            new_emp = entities.Employee(employee['name'], employee['age'], employee['role'])
+            new_emp = entities.Employee(employee['name'], employee['age'], employee['newrole'])
 
             conn = sqlite3.connect('./Main/database/data/Employees.db')
             result = connectors.add_employee(employee=new_emp, connection=conn)
