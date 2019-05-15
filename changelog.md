@@ -50,3 +50,11 @@ using Python Flask and Windows Config Automations Scripts for local tests.
 <sup>*Author - Lucas Rocha*</sup>
 
 ----
+
+## 15/05/2019
+
+* Bug correction - CORS Policy correction in fetch
+
+<sup>*Author - Lucas Rocha*</sup>
+
+----

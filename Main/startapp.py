@@ -12,6 +12,6 @@ if __name__ == '__main__':
     Run Flask server in given host and port in the format 
     python Main/startapp.py runserver --host X.Y.Z.W --port N
     """
-    CORS(base_app(), supports_credentials=False)
+    # CORS(base_app(), supports_credentials=False)
     log.info('Application has started.')
     manager.run()
