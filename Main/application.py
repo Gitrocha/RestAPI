@@ -3,14 +3,17 @@ from flask_restful import Api
 import log
 import features
 from database import configdb
+from flask_cors import CORS
 
 
 def base_app():
+
     """
     Initialize application and add resources to interact with employees Database
     """
     print(' * Initializing API.')
     restapi = Flask(__name__)
+    CORS(restapi, supports_credentials=False)
     log.start()
     api = Api(restapi)
     # Employees resources
