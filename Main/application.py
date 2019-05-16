@@ -13,7 +13,7 @@ def base_app():
     """
     print(' * Initializing API.')
     restapi = Flask(__name__)
-    # CORS(restapi, supports_credentials=False)
+    CORS(restapi, supports_credentials=False)
     log.start()
     api = Api(restapi)
     # Employees resources

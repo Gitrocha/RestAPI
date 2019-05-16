@@ -1,4 +1,4 @@
-# RestAPI
+# Flask RestAPI
 
 ## Requirements
 
@@ -51,10 +51,16 @@ Or, to get employee information by id, use the given format using url parameter:
 *http://127.0.0.1:5000/employees-by-id?id=1
 
 
->
->
->
->
+## Database
+
+All data is stored in a database file (Employees.db) located at folder Main/database/data and after starting application first time it will be configured.
+
+Further development is necessary to persist information in a cloud service database.
+
+
+---
+---
+
 > 
 > WARNING  
 > Keep the requirements.txt updated by the following command:  
