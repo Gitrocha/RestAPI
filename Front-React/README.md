@@ -20,9 +20,14 @@ Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
-## Employee Forms
+## Using UI Employee (Forms)
 
-You can add employees data, and delete update old ones.
+In this web app you can:
+
+* Add employees data
+* Delete update old information
+* Update existing information
+* Search by name or role
 
 In the last two forms its possible to search employees by name or role.
 
