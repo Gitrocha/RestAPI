@@ -139,7 +139,7 @@ class EmployeesResource3(Resource):
         return result
 
 
-# Find all employees named like inputs
+# Find all employees roles like inputs
 class EmployeesResource4(Resource):
     """
     Create class methods of API - Get by ID
@@ -153,7 +153,7 @@ class EmployeesResource4(Resource):
             conn = sqlite3.connect('./Main/database/data/Employees.db')
             result = connectors.find_employee_roles(rolelike=employee_role, connection=conn)
             conn.close()
-            string = f'User queried for employee name like {employee_role}'
+            string = f'User queried for employee role like {employee_role}'
 
             log.info(string)
 

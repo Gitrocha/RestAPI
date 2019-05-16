@@ -16,13 +16,13 @@ export default class Forms extends Component{
                         value={input_field.value} 
                         onChange={input_field.onChange}
                         placeholder={input_field.placeholder}
-                        style={{width: '10%', textAlign: 'Left', margin:5}}
+                        style={{width: '15%', textAlign: 'Left', margin:5}}
                         />
                 ))}
               </div>
             
-              <button type="submit" style={{background: 'green', color: 'white', margin:5, borderRadius: 8, fontSize: 14}}>
-              SUBMIT
+              <button type="submit" style={{background: '#25ce41', color: 'white', margin:5, borderRadius: 8, fontSize: 16, borderColor:'white'}}>
+              <b>SUBMIT</b>
               </button>
             
             </form>

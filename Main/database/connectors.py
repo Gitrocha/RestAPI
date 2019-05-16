@@ -57,7 +57,7 @@ def find_employee_roles(rolelike, connection):
     result = c.fetchall()
 
     if len(result) == 0:
-        message = f'Employee name similar to {rolelike} not found.'
+        message = f'Employee role similar to {rolelike} not found.'
         result = {'Status': 'ok', 'Message': message}
         return result
 

@@ -25,7 +25,7 @@ name = (event) =>{
 this.setState({form1: {...this.state.form1, name: event.target.value}})
 };
 age = (event) =>{
-  this.setState({form1: {...this.state.form1,age: parseInt(event.target.value)}})
+  this.setState({form1: {...this.state.form1, age: parseInt(event.target.value)}})
 };
 newRole = (event) =>{
   this.setState({form1: {...this.state.form1, newrole: event.target.value}})
@@ -34,10 +34,21 @@ newRole = (event) =>{
 id = (event) =>{
   this.setState({form2: {...this.state.form2, id: parseInt(event.target.value)}})
 };
-
-// role = (event) =>{
-//   this.setState({form2: {...this.state.form1, role: event.target.value}})
-// };
+// FORM 3 UPDATE INFO
+id2 = (event) =>{
+  this.setState({form3: {...this.state.form3, id: parseInt(event.target.value)}})
+  };
+role = (event) =>{
+  this.setState({form3: {...this.state.form3, role: event.target.value}})
+  };
+// FORM 4 SEARCH BY SIMILAR NAME
+namelike = (event) =>{
+  this.setState({form4: {...this.state.form4, name: event.target.value}})
+};
+// FORM 5 SEARCH BY SIMILAR NAME
+rolelike = (event) =>{
+  this.setState({form5: {...this.state.form5, role: event.target.value}})
+};
 
 submitNewRole = e => {
   e.preventDefault()
@@ -87,21 +98,94 @@ submitdelete = e => {
   .catch(error => this.setState({deltext: "Failed. Verify Employees API or connection. (" + error + ")"}))
 }
 
+submitrolechange = e => {
+  e.preventDefault()
+  console.log(this.state)
+  fetch(
+    'http://127.0.0.1:5000/employees',
+    {
+      method: "PUT",
+      body: JSON.stringify(this.state.form3),
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'accept-encoding': 'gzip, deflate',
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'no-cache'
+              }
+    },
+    {mode: 'no-cors'}
+    )
+  .then(res => res.json())
+  .then(res_json => this.setState({puttext: res_json.Message}))
+  .catch(error => this.setState({puttext: "Failed. Verify Employees API or connection. (" + error + ")"}))
+}
+
+getnames = e => {
+  e.preventDefault()
+  console.log(this.state)
+  fetch(
+    'http://127.0.0.1:5000/employees-like?name=' + this.state.form4.name,
+    {
+      method: "GET",
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'accept-encoding': 'gzip, deflate',
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'no-cache'
+              }
+    },
+    {mode: 'no-cors'}
+    )
+  .then(res => res.json())
+  .then(res_json => this.setState({query1text: res_json.Message}))
+  .catch(error => this.setState({query1text: "Failed. Verify Employees API or connection. (" + error + ")"}))
+}
+
+getroles = e => {
+  e.preventDefault()
+  console.log(this.state)
+  fetch(
+    'http://127.0.0.1:5000/employees-roles?role=' + this.state.form5.role,
+    {
+      method: "GET",
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'accept-encoding': 'gzip, deflate',
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'no-cache'
+              }
+    },
+    {mode: 'no-cors'}
+    )
+  .then(res => res.json())
+  .then(res_json => this.setState({query2text: res_json.Message}))
+  .catch(error => this.setState({query2text: "Failed. Verify Employees API or connection. (" + error + ")"}))
+}
+
 
 render() {
   return(
     <React.Fragment>
 
-    <h1 style={{ width: '100%', textAlign: 'center', fontSize:30 }}>
+
+    <h1 style={{ width: '100%', textAlign: 'center', fontSize:30, background:'#25ce41', color:'white' }}>
     WELCOME TO <span style={{ color: 'green' }}>STONE</span> EMPLOYEES MANAGEMENT SYSTEM
     </h1>
 
     <span>&nbsp;</span>
     <span>&nbsp;</span>
 
-    <p><b style={{margin:10}}>REGISTER, UPDATE AND REMOVE EMPLOYEES</b></p>
+    <p> ---------------------------------------------------------------------------------------------------- </p>
+    <p><b style={{margin:20, fontSize:20}}>REGISTER, UPDATE AND REMOVE EMPLOYEES</b></p>
+    <p> ---------------------------------------------------------------------------------------------------- </p>
 
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- Register new employees</p>
+    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- REGISTER NEW EMPLOYEES</p>
     <Forms 
     submit={this.submitNewRole} 
     fields={[{placeholder: "Employee Name", type: "text", onChange: this.name, value: this.state.form1.name},
@@ -112,46 +196,56 @@ render() {
      <b>{this.state.regtext}</b>
     </p>
 
-    <p> ------------------------------------------------------------------- </p>
+    <p> ---------------------------------------------------------------------------------------------------- </p>
 
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- Delete employees info from database</p>
+    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- DELETE EMPLOYEES INFO FROM DATABASE</p>
     <Forms 
     submit={this.submitdelete} 
-    fields={[{placeholder: "Employee ID", onChange: this.id, value: this.state.form2.id, type: "number"}]}/>
+    fields={[{placeholder: "Employee ID", onChange: this.id, value: this.state.form2.id, type: "number"}]}
+    />
 
     <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>
      <b>{this.state.deltext}</b>
     </p>
     
-    <p> ------------------------------------------------------------------- </p>
+    <p> ---------------------------------------------------------------------------------------------------- </p>
 
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- Update employees info</p>
-    <Forms submit={this.submitRole} fields={[{placeholder: "Employee ID", onChange: this.id, value: this.state.form2.id, type: "number"},
+    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>-UPDATE EMPLOYEES INFO</p>
+    <Forms
+     submit={this.submitrolechange}
+     fields={[{placeholder: "Employee ID", onChange: this.id2, value: this.state.form3.id, type: "number"},
           {placeholder: "New Role", onChange: this.role, value: this.state.form2.role, type: "text"}]}/>
     
     <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>
-     {this.state.puttext}
+      <b>{this.state.puttext}</b>
     </p>
 
+    <span>&nbsp;</span>
+    <p> ---------------------------------------------------------------------------------------------------- </p>
+    <p><b style={{margin:20, fontSize:20}}>QUERY EMPLOYEES BY SIMILAR NAME OR ROLE</b></p>
+    <p> ---------------------------------------------------------------------------------------------------- </p>
 
-    <p><b style={{margin:10}}>QUERY EMPLOYEES BY SIMILAR NAME OR ROLE</b></p>
+    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- SEARCH EMPLOYEES BY NAME</p>
+    <Forms submit={this.getnames} fields={[{placeholder: "First or last name", onChange: this.namelike, value: this.state.form4.name, type: "text"}]}/>
 
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- Search employees by name</p>
-    <Forms submit={this.submitRole} fields={[{placeholder: "Employee ID", onChange: this.id, value: this.state.form2.id, type: "number"},
-          {placeholder: "New Role", onChange: this.role, value: this.state.form2.role, type: "text"}]}/>
-
-    
     <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>
      {this.state.query1text}
     </p>
     
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- Search employees by role</p>
-    <Forms submit={this.submitRole} fields={[{placeholder: "Employee ID", onChange: this.id, value: this.state.form2.id, type: "number"},
-          {placeholder: "New Role", onChange: this.role, value: this.state.form2.role, type: "text"}]}/>
+    <span>&nbsp;</span>
+    
+    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- SEARCH EMPLOYEES BY ROLES</p>
+    <Forms submit={this.getroles} fields={[{placeholder: "Type Role", onChange: this.rolelike, value: this.state.form5.role, type: "text"}]}/>
 
     <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>
      {this.state.query2text}
     </p>
+
+    <span>&nbsp;</span>
+
+    <footer style={{ width: '100%', height:'20px', textAlign: 'center', fontSize:12, background:'#80ff80', color:'white' }}>
+    <i style={{margin:10, color:'#777f76'}}>* Employees Management System - Made using Javascript React and served by Python Flask RestAPI</i>
+    </footer>
 
     </React.Fragment>
 
