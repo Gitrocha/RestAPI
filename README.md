@@ -1,62 +1,23 @@
-# RestAPI
+# Web Application (Python Flask RestAPI + React Front-End)
 
-## Requirements
+## Case overview
 
-* Python 3
-* Windows* (only if want to use configuration script automation)
+This project create a web application to register, update and read employees information in a Database. The backend is using a RestAPI serving a Frontend made with Javascript and React Library.
 
-## Quickstart
+## Structure
 
-In the first use, at Admin privileges powershell, you need to execute the commands:
+This project is divided in two parts:
 
-```shell
-$ cd <YourPath>/RestAPI
-$ cmd.exe /c 'installvenvs.bat'
-```
+* ### ` Backend: Using Python and Flask`
 
-After that all dependencies will be installed and python up-to-date. For the further runs, there is no need to install
-dependencies in virtual enviroment again.
+At 'Main' folder, the backend structure can be accessed and all project files, included local database (SQLite3).
 
+* ### ` Front-End: Using ReactJS`
 
-Finally, to start application run "startlocal.bat" or execute the following command:
+At 'Front-React' folder, the front-end project can be viewed.
 
-```shell
-$ env\Scripts\activate && python Main/startapp.py runserver --host 127.0.0.1 --port 5000
-```
+## Comments
 
-## Endpoints
+You'll need to download required file listed in instructions to test it locally.
 
-To read application logs go to:
-
-* http://127.0.0.1:5000/log
-
-To post new employee information to database, send a json in the format of {"name": "Rachel Higgs", "age": 18, "role": "Trainee"} to the folowing endpoint:
-
-* http://127.0.0.1:5000/new-employees
----
-To delete employee information from database, send a json in the format of {"id":9} to the folowing endpoint:
-
-* http://127.0.0.1:5000/employees
----
-To updade employee information of database, send a json in the format of {"id": 1, "role": "Manager"} to the folowing endpoint:
-
-* http://127.0.0.1:5000/employees
----
-To get employee information from database, query using parameters in the following format:
-
-* http://127.0.0.1:5000/employees?name=Justin%20Tau
----
-Or, to get employee information by id, use the given format using url parameter:
-
-*http://127.0.0.1:5000/employees-by-id?id=1
-
-
->
->
->
->
-> 
-> WARNING  
-> Keep the requirements.txt updated by the following command:  
-> pipenv lock -r > requirements.txt
-> 
+>For further instructions check the README files in botch folders and proceed to >installation of the project in the first run.

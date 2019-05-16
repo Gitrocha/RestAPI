@@ -48,6 +48,22 @@ def find_employee_close(namelike, connection):
     return {'Status': 'ok', 'Message': result}
 
 
+def find_employee_roles(rolelike, connection):
+
+    c = connection.cursor()
+    likename = f'%{rolelike}%'
+    c.execute("SELECT * FROM employees_list WHERE role LIKE :role", {'role': likename})
+
+    result = c.fetchall()
+
+    if len(result) == 0:
+        message = f'Employee role similar to {rolelike} not found.'
+        result = {'Status': 'ok', 'Message': message}
+        return result
+
+    return {'Status': 'ok', 'Message': result}
+
+
 def find_employee_exactid(empid, connection):
 
     c = connection.cursor()
