@@ -10,7 +10,7 @@
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Or, alternatively, you can start the frontend by clicking in the .bat script:
 
