@@ -11,7 +11,9 @@ class App extends Component {
       deltext: '',
       puttext: '',
       query1text: '',
-      query2text: '',
+      qury1htext:'',
+      query2text: [],
+      query2htext: '',
       form1: {name: '', age: '', newrole: ''},
       form2: {id: ''},
       form3: {id: '', role: ''},
@@ -140,9 +142,14 @@ getnames = e => {
     },
     {mode: 'no-cors'}
     )
-  .then(res => res.json())
-  .then(res_json => this.setState({query1text: res_json.Message}))
-  .catch(error => this.setState({query1text: "Failed. Verify Employees API or connection. (" + error + ")"}))
+    .then(res => res.json())
+    .then(res_json => this.setState({query1text: res_json.Message.map((element, index) => (
+      <p key={index} style={{margin:10}}>
+    {element[0] + ' - ' + element[1] + ', ' + element[2] + ' (' + element[3] + ')'}
+    </p>
+    ))}))
+    .then(this.setState({query1htext: 'EMPLOYEES FOUND'}))
+    .catch(error => this.setState({query1text: "Failed. Verify Employees API or connection. (" + error + ")"}))
 }
 
 getroles = e => {
@@ -164,7 +171,12 @@ getroles = e => {
     {mode: 'no-cors'}
     )
   .then(res => res.json())
-  .then(res_json => this.setState({query2text: res_json.Message}))
+  .then(res_json => this.setState({query2text: res_json.Message.map((element, index) => (
+    <p key={index} style={{margin:16}}>
+  {element[0] + ' - ' + element[1]}
+  </p>
+  ))}))
+  .then(this.setState({query2htext: 'ID - NAME'}))
   .catch(error => this.setState({query2text: "Failed. Verify Employees API or connection. (" + error + ")"}))
 }
 
@@ -228,18 +240,21 @@ render() {
     <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- SEARCH EMPLOYEES BY NAME</p>
     <Forms submit={this.getnames} fields={[{placeholder: "First or last name", onChange: this.namelike, value: this.state.form4.name, type: "text"}]}/>
 
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>
-     {this.state.query1text}
+    <p style={{ width: '100%', textAlign: 'Left', margin:12}}>
+    {this.state.query1htext}
     </p>
+     {this.state.query1text}
     
     <span>&nbsp;</span>
     
     <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>- SEARCH EMPLOYEES BY ROLES</p>
     <Forms submit={this.getroles} fields={[{placeholder: "Type Role", onChange: this.rolelike, value: this.state.form5.role, type: "text"}]}/>
 
-    <p style={{ width: '100%', textAlign: 'Left', margin:5 }}>
-     {this.state.query2text}
+    <p style={{ width: '100%', textAlign: 'Left', margin:12 }}>
+    {this.state.query2htext}
     </p>
+    {this.state.query2text}
+    
 
     <span>&nbsp;</span>
 
