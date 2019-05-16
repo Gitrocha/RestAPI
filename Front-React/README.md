@@ -19,8 +19,16 @@ Or, alternatively, you can start the frontend by clicking in the .bat script:
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+
+## Employee Forms
+
+You can add employees data, and delete update old ones.
+
+In the last two forms its possible to search employees by name or role.
+
+OBS: If you want to search all employees registered in DB, just submit an empty form or role.
+
+## Other Developer tools
 
 ### `npm test`
 
